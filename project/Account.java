@@ -9,7 +9,7 @@ class Account {
     protected String email;
     protected String phone;
     protected String accountType;
-    hhh
+    
     public Account(String username, String password, String name, Address address, String email, String phone, String accountType) {
         this.username = username;
         this.password =  password;
