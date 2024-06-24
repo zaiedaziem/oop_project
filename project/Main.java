@@ -12,7 +12,7 @@ public class Main {
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-
+////
             switch (choice) {
                 case 1:
                     System.out.print("Enter account type (Customer/Seller): ");
