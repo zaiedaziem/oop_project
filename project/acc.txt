@@ -1,3 +1,4 @@
 zaied.aziem,1234,Muhamad Zaied Aziem Bin Mohd Zaidi,Lot 100,Johor Bahru,Johor,Malaysia,zaied@gmail.com,1234,Customer
 nasihin,zaiedd,nasihin qistina,kk,mm,nn,15400,kotaBharu,kelantan,efnial2@gmail.com,01198322778,Customer
 Nadia,111,Illia Nadia,aa,bb,cc,dd,ee,ff,nadia@gmail.com,12345,Seller
+zaied,zaied,zaied,11,22,33,44,5,6,zaied@gmail.com,1234,Seller

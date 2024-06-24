@@ -12,7 +12,7 @@ public class Main {
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-////
+
             switch (choice) {
                 case 1:
                     System.out.print("Enter account type (Customer/Seller): ");
@@ -65,9 +65,7 @@ public class Main {
                     customer.viewCart();
                     break;
                 case 3:
-                    System.out.print("Enter payment method (Credit Card/Paypal/etc.): ");
-                    String paymentMethod = scanner.nextLine();
-                    customer.checkout(new PaymentMethod(paymentMethod));
+                    customer.checkout();
                     break;
                 case 4:
                     customer.editProfile(scanner);
@@ -86,16 +84,17 @@ public class Main {
 
     private static void handleSellerActions(Seller seller, Scanner scanner) {
         while (true) {
+            System.out.println("Seller Menu:");
             System.out.println("1. Add Product");
             System.out.println("2. Remove Product");
             System.out.println("3. List Products");
-            System.out.println("4. Edit Profile");
-            System.out.println("5. View Account Information");
+            System.out.println("4. View Account Information");
+            System.out.println("5. Edit Profile");
             System.out.println("6. Logout");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-
+    
             switch (choice) {
                 case 1:
                     System.out.print("Enter product ID: ");
@@ -109,7 +108,7 @@ public class Main {
                     System.out.print("Enter product quantity: ");
                     int p_quantity = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-
+    
                     Product product = new Product(p_id, p_name, p_desc, p_price, p_quantity);
                     seller.addProduct(product);
                     break;
@@ -122,10 +121,10 @@ public class Main {
                     seller.listProducts();
                     break;
                 case 4:
-                    seller.editProfile(scanner);
+                    seller.viewAccountInfo();
                     break;
                 case 5:
-                    seller.viewAccountInfo();
+                    seller.editProfile(scanner);
                     break;
                 case 6:
                     System.out.println("Logging out...");
@@ -135,4 +134,5 @@ public class Main {
             }
         }
     }
+    
 }
