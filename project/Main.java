@@ -47,10 +47,9 @@ public class Main {
         while (true) {
             System.out.println("1. Browse Items");
             System.out.println("2. View Cart");
-            System.out.println("3. Checkout");
-            System.out.println("4. Edit Profile");
-            System.out.println("5. View Account Information");
-            System.out.println("6. Logout");
+            System.out.println("3. Edit Profile");
+            System.out.println("4. View Account Information");
+            System.out.println("5. Logout");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -65,15 +64,12 @@ public class Main {
                     customer.viewCart();
                     break;
                 case 3:
-                    customer.checkout();
-                    break;
-                case 4:
                     customer.editProfile(scanner);
                     break;
-                case 5:
+                case 4:
                     customer.viewAccountInfo();
                     break;
-                case 6:
+                case 5:
                     System.out.println("Logging out...");
                     return;
                 default:
@@ -94,7 +90,7 @@ public class Main {
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-    
+
             switch (choice) {
                 case 1:
                     System.out.print("Enter product ID: ");
@@ -108,7 +104,7 @@ public class Main {
                     System.out.print("Enter product quantity: ");
                     int p_quantity = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-    
+
                     Product product = new Product(p_id, p_name, p_desc, p_price, p_quantity);
                     seller.addProduct(product);
                     break;
@@ -134,5 +130,4 @@ public class Main {
             }
         }
     }
-    
 }
