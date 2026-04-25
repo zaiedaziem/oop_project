@@ -11,7 +11,7 @@ public class Main {
             System.out.println("3. Quit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -43,7 +43,7 @@ public class Main {
         }
     }
 
-    private static void handleCustomerActions(Customer customer, Scanner scanner) {
+    public static void handleCustomerActions(Customer customer, Scanner scanner) {
         while (true) {
             System.out.println("1. Browse Items");
             System.out.println("2. View Cart");
@@ -52,16 +52,16 @@ public class Main {
             System.out.println("5. Logout");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
                     System.out.print("Enter item name to browse: ");
                     String itemName = scanner.nextLine();
-                    customer.browseItem(itemName);
+                    customer.browseItem(itemName, scanner);
                     break;
                 case 2:
-                    customer.viewCart();
+                    customer.viewCart(scanner);
                     break;
                 case 3:
                     customer.editProfile(scanner);
@@ -78,7 +78,7 @@ public class Main {
         }
     }
 
-    private static void handleSellerActions(Seller seller, Scanner scanner) {
+    public static void handleSellerActions(Seller seller, Scanner scanner) {
         while (true) {
             System.out.println("Seller Menu:");
             System.out.println("1. Add Product");
@@ -89,7 +89,7 @@ public class Main {
             System.out.println("6. Logout");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -103,7 +103,7 @@ public class Main {
                     double p_price = scanner.nextDouble();
                     System.out.print("Enter product quantity: ");
                     int p_quantity = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine(); 
 
                     Product product = new Product(p_id, p_name, p_desc, p_price, p_quantity);
                     seller.addProduct(product);

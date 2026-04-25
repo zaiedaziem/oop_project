@@ -201,7 +201,7 @@ class Account {
         System.out.println("\nProfile updated successfully!");
     }
 
-    private void updateAccountFile() {
+    public void updateAccountFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader("acc.txt"));
              PrintWriter writer = new PrintWriter(new FileWriter("acc_temp.txt"))) {
             String line;

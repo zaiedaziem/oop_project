@@ -2,14 +2,15 @@ import java.io.*;
 import java.util.*;
 
 public class Customer extends Account {
-    private List<Product> cart;
+    private ArrayList<Product> cart;
 
     public Customer(String username, String password, String name, Address address, String email, String phone) {
         super(username, password, name, address, email, phone, "Customer");
         this.cart = new ArrayList<>();
+        loadCartFromFile();
     }
 
-    public void browseItem(String name) {
+    public void browseItem(String name, Scanner scanner) {
         boolean found = false;
         try (BufferedReader reader = new BufferedReader(new FileReader("products.txt"))) {
             String line;
@@ -25,15 +26,15 @@ public class Customer extends Account {
                     System.out.println("\n1. Add to Cart");
                     System.out.println("2. Exit");
                     System.out.print("Enter your choice: ");
-                    Scanner scanner = new Scanner(System.in);
+
                     int choice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine();
 
                     switch (choice) {
                         case 1:
                             System.out.print("Enter quantity to add: ");
                             int quantity = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine(); 
                             addToCart(data[0], data[1], data[2], Double.parseDouble(data[3]), quantity);
                             break;
                         case 2:
@@ -55,13 +56,7 @@ public class Customer extends Account {
         }
     }
 
-    private void addToCart(String id, String name, String desc, double price, int quantity) {
-        Product product = new Product(id, name, desc, price, quantity);
-        cart.add(product);
-        System.out.println(quantity + " " + name + "(s) added to cart.");
-    }
-
-    public void viewCart() {
+    public void viewCart(Scanner scanner) {
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty.");
         } else {
@@ -75,19 +70,18 @@ public class Customer extends Account {
             System.out.println("2. Checkout");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
-            Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
                     System.out.print("Enter item number to remove: ");
                     int itemNumber = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine();
                     removeCartItem(itemNumber);
                     break;
                 case 2:
-                    checkout();
+                    checkout(scanner);
                     break;
                 case 3:
                     System.out.println("Exiting...");
@@ -99,17 +93,25 @@ public class Customer extends Account {
         }
     }
 
-    private void removeCartItem(int itemNumber) {
+    public void addToCart(String id, String name, String desc, double price, int quantity) {
+        Product product = new Product(id, name, desc, price, quantity);
+        cart.add(product);
+        saveCartToFile();
+        System.out.println(quantity + " " + name + "(s) added to cart.");
+    }
+
+    public void removeCartItem(int itemNumber) {
         if (itemNumber < 1 || itemNumber > cart.size()) {
             System.out.println("Invalid item number.");
             return;
         }
 
         Product removedProduct = cart.remove(itemNumber - 1);
+        saveCartToFile();
         System.out.println(removedProduct.getP_name() + " removed from cart.");
     }
 
-    private void checkout() {
+    public void checkout(Scanner scanner) {
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty. Nothing to checkout.");
             return;
@@ -119,17 +121,24 @@ public class Customer extends Account {
         double total = calculateTotal();
         System.out.println("Total Price: RM" + total);
 
-        PaymentMethod.choosePaymentMethod();
+        PaymentMethod paymentMethod = PaymentMethod.choosePaymentMethod(scanner);
+        if (paymentMethod != null) {
+            paymentMethod.pay();
+        } else {
+            System.out.println("Payment method selection failed. Checkout aborted.");
+            return;
+        }
 
         // Update product quantities in products.txt
         updateProductQuantitiesInFile();
 
         // Clear cart after checkout
         cart.clear();
+        saveCartToFile();
         System.out.println("Checkout complete. Thank you for your purchase!");
     }
 
-    private double calculateTotal() {
+    public double calculateTotal() {
         double total = 0.0;
         for (Product product : cart) {
             total += product.getP_price() * product.getP_quantity();
@@ -137,8 +146,8 @@ public class Customer extends Account {
         return total;
     }
 
-    private void updateProductQuantitiesInFile() {
-        List<String> updatedLines = new ArrayList<>();
+    public void updateProductQuantitiesInFile() {
+        ArrayList<String> updatedLines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader("products.txt"))) {
             String line;
@@ -173,6 +182,38 @@ public class Customer extends Account {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Failed to update product quantities in products.txt");
+        }
+    }
+
+    public void saveCartToFile() {
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("cart.txt")))) {
+            for (Product product : cart) {
+                writer.println(product.getP_id() + "," + product.getP_name() + "," + product.getP_desc() + "," + product.getP_price() + "," + product.getP_quantity());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to save cart to cart.txt");
+        }
+    }
+
+    public void loadCartFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("cart.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                String id = data[0].trim();
+                String name = data[1].trim();
+                String desc = data[2].trim();
+                double price = Double.parseDouble(data[3].trim());
+                int quantity = Integer.parseInt(data[4].trim());
+
+                Product product = new Product(id, name, desc, price, quantity);
+                cart.add(product);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load cart from cart.txt");
         }
     }
 }

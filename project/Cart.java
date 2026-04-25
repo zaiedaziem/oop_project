@@ -1,17 +1,16 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Cart {
-    private List<Product> cartItems;
+    private ArrayList<Product> cartItems;
     private static final String CART_FILE = "cart.txt"; // File path for storing cart items
 
     public Cart() {
         this.cartItems = loadCartFromFile();
     }
 
-    private List<Product> loadCartFromFile() {
-        List<Product> loadedCart = new ArrayList<>();
+    public ArrayList<Product> loadCartFromFile() {
+        ArrayList<Product> loadedCart = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(CART_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -34,7 +33,7 @@ public class Cart {
         return loadedCart;
     }
 
-    private void saveCartToFile() {
+    public void saveCartToFile() {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CART_FILE)))) {
             for (Product item : cartItems) {
                 writer.println(item.getP_id() + "," + item.getP_name() + "," + item.getP_desc() + "," +
@@ -52,7 +51,7 @@ public class Cart {
         System.out.println(p_quantity + " " + p_name + "(s) added to cart.");
     }
 
-    public List<Product> getCartItems() {
+    public ArrayList<Product> getCartItems() {
         return cartItems;
     }
 

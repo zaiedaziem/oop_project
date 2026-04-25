@@ -1,3 +1,3 @@
 public interface Home {
-    String getAddress();
+    public String getAddress();
 }

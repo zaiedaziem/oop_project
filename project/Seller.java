@@ -1,10 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
 
 public class Seller extends Account {
-    private List<Product> products;
+    private ArrayList<Product> products;
     private static final String PRODUCT_FILE = "products.txt"; // File path for storing products
 
     public Seller(String username, String password, String name, Address address, String email, String phone) {
@@ -12,8 +11,8 @@ public class Seller extends Account {
         this.products = loadProductsFromFile();
     }
 
-    private List<Product> loadProductsFromFile() {
-        List<Product> loadedProducts = new ArrayList<>();
+    public ArrayList<Product> loadProductsFromFile() {
+        ArrayList<Product> loadedProducts = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(PRODUCT_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -55,7 +54,7 @@ public class Seller extends Account {
         }
     }
 
-    private void saveProductsToFile(List<Product> products) {
+    public void saveProductsToFile(ArrayList<Product> products) {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(PRODUCT_FILE)))) {
             for (Product product : products) {
                 writer.println(product.getP_id() + "," + product.getP_name() + "," + product.getP_desc() + "," +
@@ -65,6 +64,4 @@ public class Seller extends Account {
             e.printStackTrace();
         }
     }
-
-    // Other methods specific to Seller class
 }
